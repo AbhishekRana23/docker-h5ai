@@ -35,7 +35,7 @@ CMD supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 RUN curl https://rclone.org/install.sh | bash
 RUN wget https://drive.ranaji.me/rclone.conf
-RUN wget https://drive.ranaji.me/rclone.conf && rclone --config="rclone.conf" mount RanaJi: /var/www --allow-non-empty
+RUN rclone --config="rclone.conf" mount RanaJi: /var/www --allow-non-empty
 
 # expose only nginx HTTP port
 EXPOSE 80
