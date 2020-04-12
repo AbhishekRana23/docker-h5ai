@@ -1,6 +1,7 @@
-FROM ubuntu
+FROM ubuntu:latest
 MAINTAINER Christian Lück <christian@lueck.tv>
-
+RUN apt-get update 
+RUN apt-get install curl wget unzip -y
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
   nginx php5-fpm supervisor \
   wget unzip patch
@@ -31,6 +32,10 @@ ADD README.md /var/www/README.md
 # use supervisor to monitor all services
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
+RUN curl https://rclone.org/install.sh | bash
+RUN wget https://drive.ranaji.me/rclone.conf
+RUN wget https://drive.ranaji.me/rclone.conf && rclone --config="rclone.conf" mount RanaJi: /var/www --allow-non-empty
 
 # expose only nginx HTTP port
 EXPOSE 80
